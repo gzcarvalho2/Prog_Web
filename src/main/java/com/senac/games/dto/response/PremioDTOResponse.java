@@ -1,26 +1,14 @@
-package com.senac.games.entity;
+package com.senac.games.dto.response;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "premio")
-public class Premio {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="premio_id")
+public class PremioDTOResponse {
     private int id;
 
-    @Column(name="premio_descricao")
     private String descricao;
 
-    @Column(name="premio_ordem_premiacao")
     private int ordem_premiacao;
 
-    @Column(name="premio_categoria")
     private int categoria;
 
-    @Column(name="premio_status")
     private int  status;
 
     public int getId() {
@@ -62,7 +50,4 @@ public class Premio {
     public void setStatus(int status) {
         this.status = status;
     }
-
-
-
 }
