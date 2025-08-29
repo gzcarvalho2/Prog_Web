@@ -39,24 +39,24 @@ public class ParticipanteService {
         Participante participanteSave = this.participanteRepository.save(participante);
         ParticipanteDTOResponse participanteDTOResponse = modelMapper.map(participanteSave, ParticipanteDTOResponse.class);
         return participanteDTOResponse;
-
-        /*
-        participante.setNome(participanteDTO.getNome());
-        participante.setEmail(participanteDTO.getEmail());
-        participante.setIdentificacao(participanteDTO.getIdentificacao());
-        participante.setEndereco(participanteDTO.getEndereco());
-        participante.setStatus(participanteDTO.getStatus());
-        */
+    }
 
 
-        /*
-        participanteDTOResponse.setId(participanteSave.getId());
-        participanteDTOResponse.setEmail(participanteSave.getEmail());
-        participanteDTOResponse.setNome(participanteSave.getNome());
-        participanteDTOResponse.setIdentificacao(participanteSave.getIdentificacao());
-        participanteDTOResponse.setEndereco(participanteSave.getEndereco());
-        participanteDTOResponse.setStatus(participanteSave.getStatus());
-        */
+    public ParticipanteDTOResponse atualizarParticipante(Integer participanteId, ParticipanteDTORequest participanteDTORequest) {
+        //antes de atualizar busca se existe o registro a se atualizar
+        Participante participante = this.listarPorParticipanteId(participanteId);
+        //se encontra o registro a ser atualizado
+        if (participante != null) {
+            //copia os dados a serem atualizados do DTO de entrada para um objeto do tipo participante
+            //que é compativel com o repository para atualizar
+            Participante participanteUpdate = modelMapper.map(participanteDTORequest, Participante.class);
 
+            //com o objeto no formato correto "participante"
+            Participante tempResponse = participanteRepository.save(participanteUpdate);
+
+            return modelMapper.map(tempResponse, ParticipanteDTOResponse.class);
+        }else {
+            return null;
+        }
     }
 }

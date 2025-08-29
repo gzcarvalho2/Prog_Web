@@ -2,6 +2,7 @@ package com.senac.games.controller;
 
 import com.senac.games.dto.request.ParticipanteDTORequest;
 import com.senac.games.dto.response.ParticipanteDTOResponse;
+import com.senac.games.dto.response.ParticipanteDTOUpdateResponse;
 import com.senac.games.entity.Participante;
 import com.senac.games.service.ParticipanteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,5 +49,11 @@ public class ParticipanteController {
     @Operation(summary = "Criar novo participante", description = "Endpoint para criar um novo registro de participante")
     public ResponseEntity<ParticipanteDTOResponse> criarParticipante(@Valid @RequestBody ParticipanteDTORequest participante){
         return ResponseEntity.status(HttpStatus.CREATED).body(participanteService.criarParticipante(participante));
+    }
+
+    @PutMapping("/atualizar")
+    @Operation(summary = "Atualizar todos so dados do participante", description = "Endpoint para atualizar todo o registro do participante")
+    public ResponseEntity<ParticipanteDTOResponse> atualizarParticipante(@PathVariable("participanteId") Integer participanteId, @RequestBody ParticipanteDTORequest participanteDTORequest){
+        return ResponseEntity.ok(participanteService.atualizarParticipante(participanteId, participanteDTORequest));
     }
 }
