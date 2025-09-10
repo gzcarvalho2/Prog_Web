@@ -1,7 +1,9 @@
 package com.senac.games.service;
 
 import com.senac.games.dto.request.ParticipanteDTORequest;
+import com.senac.games.dto.request.ParticipanteDTOUpdateRequest;
 import com.senac.games.dto.response.ParticipanteDTOResponse;
+import com.senac.games.dto.response.ParticipanteDTOUpdateResponse;
 import com.senac.games.entity.Participante;
 import com.senac.games.repository.ParticipanteRepository;
 import org.modelmapper.ModelMapper;
@@ -24,13 +26,13 @@ public class ParticipanteService {
     }
 
     public List<Participante> listarParticipantes(){
-        return this.participanteRepository.findAll();
+        return this.participanteRepository.listarParticipantes();
 
 
     }
 
     public Participante listarPorParticipanteId(Integer participanteId) {
-        return this.participanteRepository.findById(participanteId).orElse(null);
+        return this.participanteRepository.obterParticipantePeloId(participanteId);
     }
 
     public ParticipanteDTOResponse criarParticipante(ParticipanteDTORequest participanteDTORequest) {
@@ -58,5 +60,19 @@ public class ParticipanteService {
         }else {
             return null;
         }
+    }
+
+    public ParticipanteDTOUpdateResponse atualizarStatusParticipante(Integer participanteId, ParticipanteDTOUpdateRequest participanteDTOUpdateRequest) {
+        Participante participante = this.listarPorParticipanteId(participanteId);
+        participante.setStatus(participanteDTOUpdateRequest.getStatus());
+
+        Participante tempResponse = participanteRepository.save(participante);
+
+
+        return modelMapper.map(tempResponse, ParticipanteDTOUpdateResponse.class);
+    }
+
+    public void apagarParticipante(Integer participanteId){
+        participanteRepository.apagadoLogicoParticipante(participanteId);
     }
 }
