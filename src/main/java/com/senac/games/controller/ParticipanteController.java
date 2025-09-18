@@ -1,6 +1,7 @@
 package com.senac.games.controller;
 
 import com.senac.games.dto.request.ParticipanteDTORequest;
+import com.senac.games.dto.request.ParticipanteDTOUpdateRequest;
 import com.senac.games.dto.response.ParticipanteDTOResponse;
 import com.senac.games.dto.response.ParticipanteDTOUpdateResponse;
 import com.senac.games.entity.Participante;
@@ -51,9 +52,25 @@ public class ParticipanteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(participanteService.criarParticipante(participante));
     }
 
-    @PutMapping("/atualizar")
+    @PutMapping("/atualizar/{participanteId}")
     @Operation(summary = "Atualizar todos so dados do participante", description = "Endpoint para atualizar todo o registro do participante")
     public ResponseEntity<ParticipanteDTOResponse> atualizarParticipante(@PathVariable("participanteId") Integer participanteId, @RequestBody ParticipanteDTORequest participanteDTORequest){
         return ResponseEntity.ok(participanteService.atualizarParticipante(participanteId, participanteDTORequest));
+    }
+
+    @PatchMapping ("/atualizarStatus/{participanteId}")
+    @Operation(summary = "Atualiza o campo status do participante",description = "Endpoint para atualizar o status do partiicpante")
+    public ResponseEntity<ParticipanteDTOUpdateResponse> atualizarStatusParticipante(
+            @Valid
+            @PathVariable("participanteId") Integer participanteId,
+            @RequestBody ParticipanteDTOUpdateRequest participanteDTOUpdateRequest){
+        return  ResponseEntity.ok(participanteService.atualizarStatusParticipante(participanteId,participanteDTOUpdateRequest));
+    }
+
+    @DeleteMapping("/apagar/{participanteId}")
+    @Operation(summary = "Apagar registro de participante", description = "Endpoint responsavel de apagar o usuario com base no id")
+    public ResponseEntity apagarParticipante(@PathVariable("participanteId") Integer participanteId){
+        participanteService.apagarParticipante(participanteId);
+        return ResponseEntity.noContent().build();
     }
 }
